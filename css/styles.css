@@ -1,0 +1,171 @@
+/*#region General CSS*/
+body, html {
+    height: 100%;
+}
+
+.no-margin {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+.bg {
+    background: url(../Assets/bg.jpg) no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    z-index: -100;
+    opacity: 0.6;
+    height: 100%;
+    width: 100%;
+}
+
+.div-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+/*#endregion General CSS*/
+  
+/*#region Button Design*/
+.button-text {
+    font-family: 'Crimson Pro', serif;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #454545;
+    font-size: 1.3em;
+}
+
+.button-design {
+    background-color: #d5513f00;   
+    border: none;
+    color: #454545;
+    padding: 1em 5em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border: .1em solid #D5503F;
+    transition: all 0.2s;
+}
+
+.button-design:hover {
+    background-color: #d5513f;
+    color: white;
+}
+
+.button-design span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.wiki-button {
+    margin-top: 5em;
+}
+/*#endregion Button Design*/
+
+/*#region Text Title Design*/
+.rose-tulips-liberty-font{
+    font-family: 'Crimson Pro', serif;
+}
+
+.rose-tulips-liberty-font{
+    font-family: 'Crimson Pro', serif;
+    font-weight: 400;
+    color: #D5503F;
+    font-size: 4em;
+    letter-spacing: 0.1em;
+}
+
+.university-font{
+    font-family: 'Crimson Pro', serif;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #454545;
+    font-size: 1em;
+}
+
+.historical-font{
+    font-family: 'Crimson Pro', serif;
+    font-weight: 700;
+    color: #454545;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    margin-top: 1.5em;
+}
+
+.rose-tulips-liberty-font::first-letter{
+    font-size: 1.5em;
+}
+
+.roses-text {
+    margin-left: -1.5em;
+}
+
+.tulips-text {
+    margin-left: 0.5em;
+    margin-top: -0.5em;
+}
+
+.and-text {
+    margin-left: -1.8em;
+    margin-top: -0.5em;
+    font-size: 10em;
+}
+
+.liberty-text {
+    margin-left: 2.5em;
+    margin-top: -1.9em;
+}
+
+.and-liberty-div p {
+    display: inline-block;
+    vertical-align: top;
+}
+  
+
+@media only screen and (min-width: 768px) {
+    .rose-tulips-liberty-font{
+        font-size: 6em;
+    }
+    
+    .university-font{
+        font-size: 1.5em;
+    }
+    
+    .historical-font{
+        font-size: 1.5em;
+    }
+
+    .rose-tulips-liberty-font::first-letter{
+        font-size: 1.5em;
+    }
+
+    .roses-text {
+        margin-left: -1.5em;
+    }
+    
+    .tulips-text {
+        margin-left: 0.5em;
+        margin-top: -0.3em;
+    }
+    
+    .and-text {
+        margin-left: -1.5em;
+        margin-top: -0.55em;
+        font-size: 18em;
+    }
+    
+    .liberty-text {
+        margin-left: 2.5em;
+        margin-top: -2.0em;
+    }
+}
+/*#endregion Text Title Design*/
