@@ -16,7 +16,6 @@ body, html {
     overflow: hidden;
     position: fixed;
     z-index: -100;
-    opacity: 0.6;
     height: 100%;
     width: 100%;
 }
@@ -67,7 +66,6 @@ body, html {
 
 .reddit-text a {
     text-decoration: none;
-    transition: all 0.2s;
     cursor: pointer;
     color: #454545;
 }
@@ -82,7 +80,7 @@ body, html {
     font-family: 'Crimson Pro', serif;
     font-weight: 700;
     font-size: 1em;
-    margin-bottom: 2em;
+    margin-bottom: 5em;
 }
 
 .rose-tulips-liberty-font{
@@ -102,7 +100,7 @@ body, html {
     font-weight: 700;
     letter-spacing: 0.2em;
     color: #454545;
-    padding-top: 10vh;
+    padding-top: 20vh;
     font-size: 1em;
 }
 
@@ -152,6 +150,7 @@ body, html {
     
     .university-font{
         font-size: 1.5em;
+        padding-top: 15vh;
     }
     
     .historical-font{
@@ -183,3 +182,20 @@ body, html {
     }
 }
 /*#endregion Text Title Design*/
+
+/*#region Animation*/
+[data-entrance="custom-fade"]{
+    opacity: 0;
+    transform: translate(0, 200px);
+}
+[data-entrance="custom-fade"].has-entered{
+    opacity: 0.6 !important;
+    transform: translate(0, 0);
+}
+[data-entrance="fade-normal"]{
+    opacity: 0;
+}
+[data-entrance="fade-normal"].has-entered{
+    opacity: 1.0 !important;
+}
+/*#endregion Animation*/
