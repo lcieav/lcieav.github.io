@@ -198,11 +198,10 @@ body {
 /*#region Animation*/
 [data-entrance="custom-fade"]{
     opacity: 0;
-    transform: translate(0, 200px);
+    height: 110%;
 }
 [data-entrance="custom-fade"].has-entered{
     opacity: 0.6 !important;
-    transform: translate(0, 0);
 }
 [data-entrance="fade-normal"]{
     opacity: 0;
