@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head><title>RTL Turkish Romanization Converter</title></head>
+<body>
+
+<h3>RTL Turkish Romanization Converter</h3>
+
+Enter OTL Turkish here<br>
+<textarea id='b4' style='width:100%;height:200px';>
+</textarea>
+<button type='button' onclick='rtlify()'>RTLify!</button>
+<p id='after'></p>
+
+<script>
+const ortho_uppercase = {
+    "B":"B",
+    "C":"Dsch",
+    "Ç":"Tsch",
+    "D":"D",
+    "F":"F",
+    "G":"G",
+    "Ğ":((l, p, n) => {
+        if ((p =='O' || p == 'Ö') && (n =='a' || n == 'Â')) 
+            return 'U';
+        else if (((p =='A' || p == 'Â' || p == 'O' || p == 'Ö' || p == 'Ü' || p == 'U') && (n =='A' || n == 'Â' || n == 'O' || n == 'Ö' || n == 'Ü' || n == 'U')) 
+            || (p == n)) // if p==n Or next character isn't a letter
+            return 'H';
+        else if ((p =='e' || p == 'ı' || p == 'i' || p == 'î') && (n =='a' || n == 'Â' || n == 'O' || n == 'Ö' || n == 'Ü' || n == 'U'))
+            return 'J';
+        else
+            return 'H';
+    }),
+    "H":"H",
+    "J":"Zh",
+    "K":"K",
+    "L":"L",
+    "M":"M",
+    "N":"N",
+    "P":"P",
+    "R":"R",
+    "S":"S",
+    "Ş":"Sh",
+    "T":"T",
+    "V":"W",
+    "Y":"J",
+    "Z":"S",
+    "A":"A",
+    "E":"E",
+    "Î":'I',
+    "İ":"I",
+    "I":"I",
+    "O":"O",
+    "Ö":"Oe",
+    "U":"U",
+    "Ü":"Ue",
+};
+const ortho_lowercase = {
+    "b":"b",
+    "c":"dsch",
+    "ç":"tsch",
+    "d":"d",
+    "f":"f",
+    "g":"g",
+    "ğ":((l, p, n) => {
+        if ((p =='o' || p == 'ö') && (n =='a' || n == 'â')) 
+            return 'u';
+        else if (((p =='a' || p == 'â' || p == 'o' || p == 'ö' || p == 'ü' || p == 'u') && (n =='a' || n == 'â' || n == 'o' || n == 'ö' || n == 'ü' || n == 'u')) 
+            || (p == n)) // if p==n or next character isn't a letter
+            return 'h';
+        else if ((p =='e' || p == 'ı' || p == 'i' || p == 'î') && (n =='a' || n == 'â' || n == 'o' || n == 'ö' || n == 'ü' || n == 'u'))
+            return 'j';
+        else
+            return 'h';
+    }),
+    "h":"h",
+    "j":"zh",
+    "k":"k",
+    "l":"l",
+    "m":"m",
+    "n":"n",
+    "p":"p",
+    "r":"r",
+    "s":"s",
+    "ş":"sch",
+    "t":"t",
+    "v":"w",
+    "y":"j",
+    "z":"s",
+    "a":"a",
+    "e":"e",
+    "î":"i",
+    "i̇":"i",
+    "ı":"i",
+    "o":"o",
+    "ö":"oe",
+    "u":"u",
+    "ü":"ue",
+}
+const ortho_symbols = {
+    '\'':'',
+}
+const ortho = {
+    ...ortho_lowercase,
+    ...ortho_uppercase,
+    ...ortho_symbols
+};
+
+function isLetter(c) {
+  return c.toLowerCase() != c.toUpperCase();
+}
+
+function rtlify() {
+  var isUpperCase = x => x.toUpperCase() && x != x.toLowerCase();
+  var txt_new = "";
+  var txt = Array.from(document.getElementById('b4').value);
+  var p = ''; // previous letter
+  var n = txt[1]; // next letter
+  txt.forEach((l,idx) => {
+    switch (typeof ortho[l]) {
+        case 'string':
+            txt_new+=ortho[l];
+            break;
+        case 'function':
+            txt_new+=ortho[l].call(this,l,p,n);
+            break;
+        default:
+            txt_new+=l
+            break;
+    }
+    // set new previous and next
+    p = l,
+    n = txt[idx+2]
+  });
+  document.getElementById('after').innerHTML = txt_new;
+}
+
+
+</script>
+
+</body>
+</html>
