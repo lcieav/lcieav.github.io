@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RTL British English Converter</title>
+<title>RTL British English Translator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
 <style>
     .highlight {
@@ -13,13 +13,13 @@
 </head>
 <body>
 
-<h2>RTL British English Converter</h2>
+<h2>RTL British English Translator</h2>
 
-<textarea id="inputText" rows="6" cols="50" placeholder="Enter text to convert..."></textarea>
+<textarea id="inputText" rows="6" cols="50" placeholder="Enter text to translate..."></textarea>
 <br>
-<button onclick="translateText()">Convert</button>
+<button onclick="translateText()">Translate</button>
 
-<h3>Converted Text:</h3>
+<h3>Translated Text:</h3>
 <p id="translatedText"></p>
 
 <script>
@@ -100,7 +100,7 @@ const alternateEnglishRules = {
   },
   rules: [
     { find: /(\b\w+[^aeioul\s])(y)\b/gi, replace: (match, p1) => `${p1}ie` }, // -y ending words to -ie but not -ly
-    { find: /(\b\w+)(er)\b/gi, replace: (match, p1) => `${p1}re` }, // -er to -re
+    //{ find: /(\b\w+)(er)\b/gi, replace: (match, p1) => `${p1}re` }, // -er to -re
     { find: /\bherald\b/gi, replace: "haerald" }, // specific word changes
     { find: /(\b\w+)(ize|ization)\b/gi, replace: (match, p1, p2) => `${p1}${p2 === 'ize' ? 'ise' : 'isation'}` }, // ize/ization to ise/isation,
     //{ find: /(\b\w+log)(s?)\b/gi, replace: "$1ue$2" }, // -logs to -logues, -log to -logue
