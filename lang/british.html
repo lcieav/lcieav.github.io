@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RTL British English Translator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
+<style>
+    .highlight {
+      background-color: #9bec9b; /* Light green background for the highlighted text */
+    }
+    </style>
+</head>
+<body>
+
+<h2>RTL British English Translator</h2>
+
+<textarea id="inputText" rows="6" cols="50" placeholder="Enter text to translate..."></textarea>
+<br>
+<button onclick="translateText()">Translate</button>
+
+<h3>Translated Text:</h3>
+<p id="translatedText"></p>
+
+<script>
+async function loadVocab(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+}
+
+// Load the custom vocabulary when the page loads
+let customVocabLoaded = false;
+const vocabUrl = 'https://raw.githubusercontent.com/lcieav/lcieav.github.io/master/lang/corpus/britishMap.json'
+
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    alternateEnglishRules.customVocab = await loadVocab(vocabUrl);
+    customVocabLoaded = true;
+    console.log('Custom vocabulary loaded successfully.');
+  } catch (error) {
+    console.error('Failed to load custom vocabulary:', error);
+    // Handle loading error (show message to user, etc.)
+  }
+});
+
+// Function to apply custom vocabulary mappings with matched cases
+function applyCustomVocab(word, customVocab) {
+  const lowerCaseWord = word.toLowerCase();
+  if (customVocab.hasOwnProperty(lowerCaseWord)) {
+    const replacement = customVocab[lowerCaseWord];
+    return matchCase(word, replacement);
+  }
+  return word;
+}
+
+// Function to match the case of the original word
+function matchCase(original, replacement) {
+  if (original.charAt(0) === original.charAt(0).toUpperCase()) {
+    return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+  }
+  return replacement;
+}
+
+// Function to apply exceptions to the sentence
+function applyExceptions(sentence, exceptions) {
+  for (let [key, replacement] of Object.entries(exceptions)) {
+    const regex = new RegExp(`\\b${key}\\b`, 'gi');
+    sentence = sentence.replace(regex, replacement);
+  }
+  return sentence;
+}
+
+// Function to apply transformation rules to the sentence
+function applyRules(sentence, rules) {
+  rules.forEach(rule => {
+    sentence = sentence.replace(rule.find, rule.replace);
+  });
+  return sentence;
+}
+
+function transformToAlternateEnglish(sentence, rulesObject) {
+  // Apply each part of the transformation
+  sentence = sentence.split(/\b/).map(word => applyCustomVocab(word, rulesObject.customVocab)).join('');
+  sentence = applyRules(sentence, rulesObject.rules);
+  sentence = applyExceptions(sentence, rulesObject.exceptions);
+
+  return sentence;
+}
+
+const alternateEnglishRules = {
+  exceptions: {
+    'democracie': 'democracy',
+    'manie': 'many',
+    'advisour': 'advisor',
+    'four': 'for'
+    // add more exceptions here
+  },
+  rules: [
+    { find: /(\b\w+[^aeioul\s])(y)\b/gi, replace: (match, p1) => `${p1}ie` }, // -y ending words to -ie but not -ly
+    { find: /(\b\w+)(er)\b/gi, replace: (match, p1) => `${p1}re` }, // -er to -re
+    { find: /\bherald\b/gi, replace: "haerald" }, // specific word changes
+    { find: /(\b\w+)(ize|ization)\b/gi, replace: (match, p1, p2) => `${p1}${p2 === 'ize' ? 'ise' : 'isation'}` }, // ize/ization to ise/isation,
+    //{ find: /(\b\w+log)(s?)\b/gi, replace: "$1ue$2" }, // -logs to -logues, -log to -logue
+    // { find: /(\b\w+)(or)(s?)\b/gi, replace: (match, p1, p2, p3) => `${p1}our${p3}` },
+    // add more rules here
+  ]
+};
+
+function translateText() {
+    if (!customVocabLoaded) {
+        alert('The translation data is still loading. Please try again in a moment.');
+        return;
+    }
+
+  const inputText = document.getElementById("inputText").value;
+  const modifiedText = transformToAlternateEnglish(inputText, alternateEnglishRules);
+
+  // Use diff-match-patch to find the differences
+  const dmp = new diff_match_patch();
+  const diffs = dmp.diff_main(inputText, modifiedText);
+  dmp.diff_cleanupSemantic(diffs);
+  
+  // Build the HTML
+  let outputHtml = diffs.map(([operation, text]) => {
+    switch (operation) {
+      case 1: return `<span class="highlight">${escapeHtml(text)}</span>`; // Inserted text
+      case -1: return ''; // Deleted text (we ignore this in your case)
+      case 0: return escapeHtml(text); // Unchanged text
+      default: return escapeHtml(text);
+    }
+  }).join('');
+
+  document.getElementById("translatedText").innerHTML = outputHtml;
+}
+
+
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+}
+
+</script>
+
+</body>
+</html>
