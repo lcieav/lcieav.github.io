@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #e74c3c;
+        }
+        p {
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentPath = window.location.pathname;
+
+            // Check if the URL path starts with "/wiki/"
+            if (currentPath.startsWith("/wiki/")) {
+                const newUrl = `https://wiki.rosestulipsandliberty.com.com${currentPath}`;
+                window.location.replace(newUrl); // Redirect
+            } else {
+                // Show standard 404 content for other paths
+                const mainContent = document.getElementById("main-content");
+                mainContent.innerHTML = `
+                    <h1>404 - Page Not Found</h1>
+                    <p>Sorry, we couldn't find the page you're looking for.</p>
+                    <p><a href="/">Return to the homepage</a></p>
+                `;
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="main-content">
+        <h1>Redirecting...</h1>
+    </div>
+</body>
+</html>
